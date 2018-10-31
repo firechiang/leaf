@@ -16,15 +16,16 @@
 
 package org.paboo.leaf.exceptions;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author Leonard Woo
  */
-public class DatacenterIdException extends IllegalArgumentException {
-    public DatacenterIdException() {
-        super();
-    }
+@Slf4j
+public class MaxIdException extends IllegalArgumentException {
 
-    public DatacenterIdException(String message) {
-        super(message);
+    public MaxIdException(String message) {
+//        super(message);
+        log.warn(message);
     }
 }

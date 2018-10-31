@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+message leafReq {
+  int32 nodeId = 1;
+  int32 serviceId = 2;
+}
+
+message leafResp {
+  int64 id = 1;
+}

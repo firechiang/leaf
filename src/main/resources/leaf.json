@@ -1,5 +1,7 @@
-leaf:
-  rpc:
-    host: localhost
-    port: 9800
-  time-offset: 1540883145
+{
+  "rpc": {
+    "host": "127.0.0.1",
+    "port": 9800
+  },
+  "timeOffset": 1540883145
+}
