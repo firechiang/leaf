@@ -16,6 +16,7 @@
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.paboo.leaf.BaseIdGenerator;
 import org.paboo.leaf.config.LeafConfiguration;
 
 import java.time.ZoneId;
@@ -31,6 +32,14 @@ public class LeafTest {
     @Test
     public void genTime() {
         log.info( ZonedDateTime.now(ZoneId.of("UTC")).toEpochSecond() + "" );
+    }
+
+    @Test
+    public void genId() {
+        BaseIdGenerator idGenerator = new BaseIdGenerator(2, 5);
+        for (int i = 0; i < 100; i++) {
+            idGenerator.nextId();
+        }
     }
 
     @Test

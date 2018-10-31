@@ -1,6 +1,5 @@
 {
   "rpc": {
-    "host": "localhost",
     "port": 9800
   },
   "timeOffset": 1540883145

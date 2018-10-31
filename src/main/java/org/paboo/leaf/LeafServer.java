@@ -21,14 +21,13 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import lombok.extern.slf4j.Slf4j;
 import org.paboo.leaf.config.LeafConfiguration;
-import org.paboo.leaf.entity.RpcEntity;
 import org.paboo.leaf.gen.Leaf;
+
 
 /**
  * @author Leonard Woo
@@ -36,7 +35,7 @@ import org.paboo.leaf.gen.Leaf;
 @Slf4j
 public class LeafServer implements Runnable {
 
-    private final RpcEntity rpc = LeafConfiguration.getInstance().loadConfig().getRpc();
+    private final int port = LeafConfiguration.getInstance().loadConfig().getPort();
 
     @Override
     public void run() {
@@ -46,13 +45,12 @@ public class LeafServer implements Runnable {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
-//                    .option(ChannelOption.SO_BACKLOG, 1024)
-//                    .handler(new LoggingHandler(LogLevel.INFO))
+                    .option(ChannelOption.SO_BACKLOG, 1024)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
                             ch.pipeline().addLast(new ProtobufVarint32FrameDecoder());
-                            ch.pipeline().addLast(new ProtobufDecoder(Leaf.leafReq.getDefaultInstance()));
+//                            ch.pipeline().addLast(new ProtobufDecoder(Leaf.leafReq.getDefaultInstance()));
                             ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
                             ch.pipeline().addLast(new ProtobufEncoder());
                             ch.pipeline().addLast(new ServerHandler());
@@ -60,7 +58,7 @@ public class LeafServer implements Runnable {
                     })
 //                    .childOption(ChannelOption.SO_KEEPALIVE, true)
             ;
-            ChannelFuture f = b.bind(rpc.getHost(), rpc.getPort()).sync();
+            ChannelFuture f = b.bind(port).sync();
             f.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             log.error("SERVER ERROR", e);

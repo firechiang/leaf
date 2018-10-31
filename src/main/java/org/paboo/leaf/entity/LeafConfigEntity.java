@@ -26,7 +26,7 @@ import lombok.Setter;
 @Setter
 public class LeafConfigEntity {
 
-    private RpcEntity rpc;
+    private int port;
 
     private Long timeOffset;
 
@@ -37,4 +37,11 @@ public class LeafConfigEntity {
 //        this.workerId = 1;
 //    }
 
+    @Override
+    public String toString() {
+        return "LeafConfigEntity{" +
+                "port=" + port +
+                ", timeOffset=" + timeOffset +
+                '}';
+    }
 }
