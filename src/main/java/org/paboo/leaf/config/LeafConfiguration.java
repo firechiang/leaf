@@ -50,7 +50,7 @@ public class LeafConfiguration {
             String json = IOUtil.readerToString(
                     IOUtil.loadStream(
                             IOUtil.getStream(configFile)));
-            log.info(json);
+//            log.info(json);
             conf = JsonUtil.fromJson(json, LeafConfigEntity.class);
 
         } catch (IOException ex) {
