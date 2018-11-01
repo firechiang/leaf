@@ -7,4 +7,5 @@ generating unique ID numbers at high scale with some simple guarantees.
 
 ### Generator Java Code
 
-`protoc ./proto/leaf.proto --java_out=./java --proto_path=./proto`
+`mvn protobuf:compile`<br />
+AND `mvn protobuf:compile-custom`

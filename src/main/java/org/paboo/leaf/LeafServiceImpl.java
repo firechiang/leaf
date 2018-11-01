@@ -16,29 +16,23 @@
 
 package org.paboo.leaf;
 
-import com.google.protobuf.RpcCallback;
-import com.google.protobuf.RpcController;
-import io.grpc.BindableService;
-import io.grpc.ServerServiceDefinition;
-import org.paboo.leaf.proto.LeafProto;
+import io.grpc.stub.StreamObserver;
 import org.paboo.leaf.proto.LeafReq;
 import org.paboo.leaf.proto.LeafResp;
-import org.paboo.leaf.proto.LeafService;
+import org.paboo.leaf.proto.LeafServiceGrpc;
 
 /**
  * @author Leonard Woo
  */
-public class LeafServiceImpl extends LeafService implements BindableService {
+public class LeafServiceImpl extends LeafServiceGrpc.LeafServiceImplBase {
 
     @Override
-    public void idGen(RpcController controller, LeafReq request, RpcCallback<LeafResp> done) {
+    public void idGen(LeafReq request, StreamObserver<LeafResp> responseObserver) {
         BaseIdGenerator idGenerator = new BaseIdGenerator(request.getServiceId(), request.getNodeId());
-        LeafResp resp = LeafResp.newBuilder().setId(idGenerator.nextId()).build();
-        done.run(resp);
+
+        responseObserver.onNext(LeafResp.newBuilder().setId(idGenerator.nextId()).build());
+
+        responseObserver.onCompleted();
     }
 
-    @Override
-    public ServerServiceDefinition bindService() {
-        return ServerServiceDefinition.builder("leaf").build();
-    }
 }

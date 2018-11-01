@@ -38,11 +38,6 @@ import java.util.concurrent.atomic.AtomicLong;
 @Slf4j
 public class BaseIdGenerator {
 
-//    private static final BaseIdGenerator INSTANCE = new BaseIdGenerator();
-//    public static BaseIdGenerator getInstance() {
-//        return INSTANCE;
-//    }
-
     private final long unusedBits = 1L;
 
     private final long epoch = LeafConfiguration.getInstance().loadConfig().getTimeOffset();
