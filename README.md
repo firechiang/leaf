@@ -5,7 +5,9 @@ generating unique ID numbers at high scale with some simple guarantees.
 
 [https://github.com/twitter/snowflake](https://github.com/twitter/snowflake)
 
-### Generator Java Code
+## Generator Java Code
 
-`mvn protobuf:compile`<br />
-AND `mvn protobuf:compile-custom`
+`mvn protobuf:compile` AND `mvn protobuf:compile-custom`
+
+## Run environment
+Windows please use PowerShell

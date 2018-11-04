@@ -22,10 +22,7 @@ import org.paboo.leaf.entity.LeafConfigEntity;
 import org.paboo.leaf.utils.IOUtil;
 import org.paboo.leaf.utils.JsonUtil;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * @author Leonard Woo
@@ -41,16 +38,12 @@ public class LeafConfiguration {
     private LeafConfiguration(){
     }
 
-    private final File configFile = new File(getPath("leaf.json"));
-
     public LeafConfigEntity loadConfig() {
 
         LeafConfigEntity conf = new LeafConfigEntity();
         try {
-            String json = IOUtil.readerToString(
-                    IOUtil.loadStream(
-                            IOUtil.getStream(configFile)));
-//            log.info(json);
+            String json = IOUtil.readerToString(getReader("leaf.json"));
+            log.info(json);
             conf = JsonUtil.fromJson(json, LeafConfigEntity.class);
 
         } catch (IOException ex) {
@@ -61,7 +54,7 @@ public class LeafConfiguration {
 
     public void printBanner() {
         try {
-            BufferedReader reader = IOUtil.loadStream(IOUtil.getStream(new File(getPath("banner.txt"))));
+            BufferedReader reader = getReader("banner.txt");
             String version = new MavenXpp3Reader().read(new FileReader("pom.xml")).getVersion();
             while (reader.ready()) {
                 String line = reader.readLine();
@@ -74,10 +67,23 @@ public class LeafConfiguration {
         }
     }
 
-    private String getPath(String name) {
+    private BufferedReader getReader(String name) {
+        return IOUtil.loadStream(getPath(name));
+    }
+
+    private InputStream getPath(String name) {
         if (name.startsWith("/")) {
             name = name.substring(1);
         }
-        return LeafConfiguration.class.getClassLoader().getResource(name).getPath();
+        ClassLoader cl = LeafConfiguration.class.getClassLoader();
+        InputStream is = cl.getResourceAsStream(name);
+        try {
+            if (is == null) {
+                is = IOUtil.getStream(new File(cl.getResource(name).getPath()));
+            }
+        } catch (FileNotFoundException e) {
+            log.warn("File not found.", e);
+        }
+        return is;
     }
 }
