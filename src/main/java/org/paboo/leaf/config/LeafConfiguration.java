@@ -35,7 +35,7 @@ public class LeafConfiguration {
         return INSTANCE;
     }
 
-    private LeafConfiguration(){
+    private LeafConfiguration() {
     }
 
     public LeafConfigEntity loadConfig() {
@@ -52,17 +52,36 @@ public class LeafConfiguration {
         return conf;
     }
 
-    public void printBanner() {
+    private static final String[] BANNER = {"",
+    "__________       ___.                   .____                  _____",
+            "\\______   \\_____ \\_ |__   ____   ____   |    |    ____ _____ _/ ____\\",
+            " |     ___/\\__  \\ | __ \\ /  _ \\ /  _ \\  |    |  _/ __ \\\\__  \\\\   __\\",
+            " |    |     / __ \\| \\_\\ (  <_> |  <_> ) |    |__\\  ___/ / __ \\|  |",
+            " |____|    (____  /___  /\\____/ \\____/  |_______ \\___  >____  /__|",
+            "                \\/    \\/                        \\/   \\/     \\/"
+    };
+    private static final String NAME = " :: Paboo Leaf ::";
+
+    public void printBanner(PrintStream out) {
+
         try {
-            BufferedReader reader = getReader("banner.txt");
             String version = new MavenXpp3Reader().read(new FileReader("pom.xml")).getVersion();
-            while (reader.ready()) {
-                String line = reader.readLine();
-                if (line.contains("${version}")) {
-                    line = line.replace("${version}", version);
-                }
-                System.out.println(line);
+            version = (version != null) ? " (v" + version + ")" : "";
+
+            int maxLength = 0;
+            for (int i = 0; i < BANNER.length; i++) {
+                maxLength = BANNER[i].length();
+               out.println(BANNER[i]);
             }
+
+            StringBuilder padding = new StringBuilder();
+            while (padding.length() < maxLength
+                    - (version.length() + NAME.length())) {
+                padding.append(" ");
+            }
+            out.println(NAME + padding.toString() + version);
+
+
         } catch (Exception ex) {
         }
     }

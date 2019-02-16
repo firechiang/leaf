@@ -30,7 +30,7 @@ import java.io.IOException;
 public class LeafApplication {
 
     public static void main(String[] args) throws InterruptedException, IOException {
-        LeafConfiguration.getInstance().printBanner();
+        LeafConfiguration.getInstance().printBanner(System.out);
 
         int port = LeafConfiguration.getInstance().loadConfig().getPort();
         Server server = NettyServerBuilder.forPort(port)
