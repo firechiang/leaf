@@ -10,4 +10,5 @@ generating unique ID numbers at high scale with some simple guarantees.
 `mvn protobuf:compile` AND `mvn protobuf:compile-custom`
 
 ## Run environment
-Windows please use PowerShell
+
+Windows user please use PowerShell
