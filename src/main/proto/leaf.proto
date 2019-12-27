@@ -26,6 +26,7 @@ package org.paboo.leaf.proto;
 // The leaf service definition
 service LeafService {
   rpc IdGen (LeafReq) returns (LeafResp) {}
+  rpc IdPar (LeafResp) returns (LeafMsg) {}
 }
 
 // request message
@@ -37,4 +38,8 @@ message LeafReq {
 // response message
 message LeafResp {
   int64 id = 1;
+}
+
+message LeafMsg {
+  string message = 1;
 }

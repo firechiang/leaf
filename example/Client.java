@@ -18,6 +18,7 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.paboo.leaf.proto.LeafReq;
 import org.paboo.leaf.proto.LeafResp;
+import org.paboo.leaf.proto.LeafMsg;
 import org.paboo.leaf.proto.LeafServiceGrpc;
 
 import java.util.concurrent.TimeUnit;
@@ -52,9 +53,17 @@ public class Client {
         return resp.getId();
     }
 
+    public String formatId(long id){
+        LeafResp req = LeafResp.newBuilder().setId(id).build();
+        LeafMsg resp = blockingStub.idPar(req);
+        return resp.getMessage();
+    }
+
 
     public static void main(String[] args) throws Exception{
         Client client = new Client("localhost", 9800);
-        System.out.println(client.getId());
+        long id = client.getId();
+        System.out.println(id);
+        System.out.println(client.formatId(id));
     }
 }

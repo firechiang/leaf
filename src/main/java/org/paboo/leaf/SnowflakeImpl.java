@@ -36,7 +36,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Leonard Woo
  */
 @Slf4j
-public class BaseIdGenerator {
+public class SnowflakeImpl {
 
     private final long unusedBits = 1L;
 
@@ -91,7 +91,7 @@ public class BaseIdGenerator {
      * @param datacenterId data center number the process running on, value range: [0,31]
      * @param workerId machine or process number, value range: [0,31]
      */
-    public BaseIdGenerator(long datacenterId, long workerId) {
+    public SnowflakeImpl(long datacenterId, long workerId) {
         if (datacenterId > maxDatacenterId || datacenterId < 0) {
             throw new MaxIdException(
                     String.format("datacenter Id can't be greater than %d or less than 0", maxDatacenterId));
@@ -101,7 +101,7 @@ public class BaseIdGenerator {
                     String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
         }
 
-        log.info("%n Datecenter ID: " + datacenterId + "%n Worker ID:" + workerId);
+        log.debug("%n Datecenter ID: " + datacenterId + "%n Worker ID:" + workerId);
         this.datacenterId = datacenterId;
         this.workerId = workerId;
     }
@@ -132,7 +132,6 @@ public class BaseIdGenerator {
                 (datacenterId << datacenterIdShift) | // datacenter
                 (workerId << workerIdShift) | // worker
                 sequence; // sequence
-        log.info("ID: " + snowflake);
         return snowflake;
     }
 

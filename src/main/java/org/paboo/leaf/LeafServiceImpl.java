@@ -17,6 +17,7 @@
 package org.paboo.leaf;
 
 import io.grpc.stub.StreamObserver;
+import org.paboo.leaf.proto.LeafMsg;
 import org.paboo.leaf.proto.LeafReq;
 import org.paboo.leaf.proto.LeafResp;
 import org.paboo.leaf.proto.LeafServiceGrpc;
@@ -28,9 +29,18 @@ public class LeafServiceImpl extends LeafServiceGrpc.LeafServiceImplBase {
 
     @Override
     public void idGen(LeafReq request, StreamObserver<LeafResp> responseObserver) {
-        BaseIdGenerator idGenerator = new BaseIdGenerator(request.getServiceId(), request.getNodeId());
+        SnowflakeImpl sf = new SnowflakeImpl(request.getServiceId(), request.getNodeId());
 
-        responseObserver.onNext(LeafResp.newBuilder().setId(idGenerator.nextId()).build());
+        responseObserver.onNext(LeafResp.newBuilder().setId(sf.nextId()).build());
+
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void idPar(LeafResp request, StreamObserver<LeafMsg> responseObserver) {
+        SnowflakeImpl sf = new SnowflakeImpl(0,0);
+
+        responseObserver.onNext(LeafMsg.newBuilder().setMessage(sf.formatId(request.getId())).build());
 
         responseObserver.onCompleted();
     }

@@ -16,7 +16,7 @@
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.paboo.leaf.BaseIdGenerator;
+import org.paboo.leaf.SnowflakeImpl;
 import org.paboo.leaf.config.LeafConfiguration;
 
 import java.time.ZoneId;
@@ -36,10 +36,19 @@ public class LeafTest {
 
     @Test
     public void genId() {
-        BaseIdGenerator idGenerator = new BaseIdGenerator(2, 5);
-        for (int i = 0; i < 100; i++) {
-            idGenerator.nextId();
+        SnowflakeImpl idGenerator = new SnowflakeImpl(2, 5);
+        for (int i = 0; i < 10; i++) {
+            log.info("ID -> " + idGenerator.nextId());
         }
+    }
+
+    @Test
+    public void formatId() {
+        SnowflakeImpl sf = new SnowflakeImpl(1,3);
+        log.info(sf.toString());
+        long id = sf.nextId();
+        log.info("ID -> " + id);
+        log.info(sf.formatId(id));
     }
 
     @Test

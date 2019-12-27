@@ -26,7 +26,7 @@ import java.util.Locale;
  */
 public class DatetimeUtil {
 
-    private static final String ISO8601 = "yyyy-MM-dd'T'HH:mm:ss";
+    private static final String ISO8601 = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
     public static String now(){
         return format(LocalDateTime.now());

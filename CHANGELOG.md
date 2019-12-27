@@ -1,3 +1,8 @@
+## 1.2.RELEASE - 20191227
+
+1. update pom
+2. add formatId
+
 ## 1.1.RELEASE - 20190216
 
 1. update banner
