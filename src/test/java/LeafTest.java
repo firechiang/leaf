@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import java.time.Instant;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.paboo.leaf.SnowflakeImpl;
@@ -44,7 +45,9 @@ public class LeafTest {
 
     @Test
     public void formatId() {
-        SnowflakeImpl sf = new SnowflakeImpl(1,3);
+        SnowflakeImpl sf = new SnowflakeImpl(3,5);
+        log.info("Time offset: " +
+            ZonedDateTime.ofInstant( Instant.ofEpochSecond( sf.getEpoch()), ZoneId.of("UTC") ) );
         log.info(sf.toString());
         long id = sf.nextId();
         log.info("ID -> " + id);
